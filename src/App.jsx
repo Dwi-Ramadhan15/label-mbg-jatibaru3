@@ -146,7 +146,7 @@ export default function LabelMBG() {
           </div>
           
           <div className="text-center px-16 sm:px-24">
-            <h1 className="text-xl sm:text-3xl font-extrabold tracking-wider drop-shadow-md leading-tight">SPPG JATIBARU 007</h1>
+            <h1 className="text-xl sm:text-3xl font-extrabold tracking-wider drop-shadow-md leading-tight">SPPG JATIBARU 3</h1>
             <h2 className="text-xs sm:text-lg font-medium opacity-90 mt-1">MENU MAKAN BERGIZI GRATIS</h2>
           </div>
           
