@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue, set } from 'firebase/database';
 
-// Konfigurasi otomatis dari data Firebase SPPG Jatibaru 
+// Konfigurasi otomatis dari data Firebase SPPG Jatibaru
 const firebaseConfig = {
   apiKey: "AIzaSyBuTGMwbup_gwPI7V_DcqdpEZ_6tGq9elk",
   authDomain: "sppg-jatibaru.firebaseapp.com",
@@ -138,23 +138,23 @@ export default function LabelMBG() {
 
   return (
     <div className="min-h-screen bg-orange-50 font-sans p-2 sm:p-4 flex justify-center">
-      <div className="w-full max-w-2xl bg-white shadow-2xl rounded-2xl overflow-hidden border border-orange-200">
+      <div className="w-full max-w-2xl bg-white shadow-2xl rounded-2xl overflow-hidden border border-orange-200 flex flex-col">
         
+        {/* HEADER */}
         <div className="bg-orange-600 text-white py-4 sm:py-5 shadow-inner relative flex items-center justify-center px-4 min-h-[90px]">
           <div className="absolute left-3 sm:left-6 w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-white">
             <img src="./assets/logo-yayasan.png" alt="Logo Yayasan" className="w-full h-full object-cover" />
           </div>
-          
           <div className="text-center px-16 sm:px-24">
             <h1 className="text-xl sm:text-3xl font-extrabold tracking-wider drop-shadow-md leading-tight">SPPG JATIBARU 3</h1>
             <h2 className="text-xs sm:text-lg font-medium opacity-90 mt-1">MENU MAKAN BERGIZI GRATIS</h2>
           </div>
-          
           <div className="absolute right-3 sm:right-6 w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-white">
             <img src="./assets/logo-bgn.png" alt="Logo MBG" className="w-full h-full object-cover" />
           </div>
         </div>
 
+        {/* TANGGAL & KONTROL ADMIN */}
         <div className="bg-orange-100 p-4 border-b border-orange-200 flex flex-col sm:flex-row justify-between items-center gap-3">
           <div className="flex items-center gap-2">
             <label className="font-semibold text-orange-900">Pilih Tanggal:</label>
@@ -177,7 +177,8 @@ export default function LabelMBG() {
           )}
         </div>
 
-        <div className="p-4 sm:p-6">
+        {/* KONTEN UTAMA */}
+        <div className="p-4 sm:p-6 flex-grow">
           <div className="flex justify-center mb-8">
             <div className="relative group rounded-xl overflow-hidden shadow-lg border-4 border-white ring-2 ring-orange-200 bg-gray-50 flex justify-center items-center">
               <img src={activeMenu.image} alt={`Menu ${activeMenu.tanggal}`} className="w-full max-w-sm h-auto max-h-[400px] object-contain" />
@@ -243,7 +244,8 @@ export default function LabelMBG() {
           </div>
         </div>
 
-        <div className="bg-gray-100 border-t p-5 flex flex-col items-center">
+        {/* QR CODE & LOGIN ADMIN */}
+        <div className="bg-gray-100 border-t border-b p-5 flex flex-col items-center">
           <p className="text-sm font-semibold text-gray-600 mb-3 text-center">Scan barcode ini untuk memantau nilai gizi menu harian:</p>
           <div className="bg-white p-2 rounded-xl shadow-md mb-4 border border-gray-200">
             <img src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(window.location.href)}`} alt="QR Code" className="w-24 h-24" />
@@ -256,6 +258,36 @@ export default function LabelMBG() {
           )}
         </div>
 
+        {/* FOOTER SOSIAL MEDIA */}
+        <div className="bg-orange-700 text-orange-50 p-5 flex flex-col items-center justify-center">
+          <p className="text-sm font-medium mb-3 tracking-wide">Ikuti Dokumentasi Kegiatan Kami:</p>
+          <div className="flex gap-5 mb-3">
+            {/* Instagram Icon */}
+            <a href="#" target="_blank" rel="noreferrer" className="bg-orange-800 p-2.5 rounded-full hover:bg-orange-500 hover:-translate-y-1 transition-all shadow-inner">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            {/* TikTok Icon */}
+            <a href="#" target="_blank" rel="noreferrer" className="bg-orange-800 p-2.5 rounded-full hover:bg-orange-500 hover:-translate-y-1 transition-all shadow-inner">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+              </svg>
+            </a>
+            {/* YouTube Icon */}
+            <a href="#" target="_blank" rel="noreferrer" className="bg-orange-800 p-2.5 rounded-full hover:bg-orange-500 hover:-translate-y-1 transition-all shadow-inner">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+              </svg>
+            </a>
+          </div>
+          <p className="text-[11px] opacity-70">© 2026 SPPG Jatibaru 3. All rights reserved.</p>
+        </div>
+
+        {/* MODAL LOGIN */}
         {showLogin && (
           <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
             <div className="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-xs transform transition-all scale-100 border-t-4 border-orange-500">
@@ -263,7 +295,7 @@ export default function LabelMBG() {
               <p className="text-xs text-center text-gray-500 mb-5">Masukkan PIN untuk mengelola data gizi harian.</p>
               <form onSubmit={handleLogin}>
                 <input
-                  type="password" placeholder="MASUKAN PIN" value={pinInput} onChange={(e) => setPinInput(e.target.value)}
+                  type="password" placeholder="PASSWORD" value={pinInput} onChange={(e) => setPinInput(e.target.value)}
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl mb-4 text-center tracking-[0.5em] text-lg font-bold text-gray-800 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
                   autoFocus
                 />
