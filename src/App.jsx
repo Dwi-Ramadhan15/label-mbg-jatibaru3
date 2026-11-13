@@ -147,7 +147,11 @@ export default function LabelMBG() {
         <div className="p-4 sm:p-6">
           <div className="flex justify-center mb-8">
             <div className="relative group rounded-xl overflow-hidden shadow-lg border-4 border-white ring-2 ring-orange-200">
-              <img src={activeMenu.image} alt={`Menu ${activeMenu.tanggal}`} className="w-72 h-auto object-cover" />
+              <img 
+                  src={activeMenu.image} 
+                  alt={`Menu ${activeMenu.tanggal}`} 
+                  className="w-full max-w-sm h-auto max-h-[400px] object-contain bg-gray-50" 
+                />
               {isAdmin && (
                 <label className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
                   <svg className="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
