@@ -108,17 +108,17 @@ export default function LabelMBG() {
         <div className="bg-orange-600 text-white py-4 sm:py-5 shadow-inner relative flex items-center justify-center px-4 min-h-[90px]">
           {/* Container Logo Kiri */}
           <div className="absolute left-3 sm:left-6 w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-white">
-            <img src="/assets/logo-yayasan.png" alt="Logo Yayasan" className="w-full h-full object-cover" />
+            <img src="./assets/logo-yayasan.png" alt="Logo Yayasan" className="w-full h-full object-cover" />
           </div>
           
           <div className="text-center px-16 sm:px-24">
-            <h1 className="text-xl sm:text-3xl font-extrabold tracking-wider drop-shadow-md leading-tight">SPPG JATIBARU 007</h1>
+            <h1 className="text-xl sm:text-3xl font-extrabold tracking-wider drop-shadow-md leading-tight">SPPG JATIBARU 3</h1>
             <h2 className="text-xs sm:text-lg font-medium opacity-90 mt-1">MENU MAKAN BERGIZI GRATIS</h2>
           </div>
           
           {/* Container Logo Kanan */}
           <div className="absolute right-3 sm:right-6 w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-white">
-            <img src="/assets/logo-bgn.png" alt="Logo MBG" className="w-full h-full object-cover" />
+            <img src="./assets/logo-bgn.png" alt="Logo MBG" className="w-full h-full object-cover" />
           </div>
         </div>
 
