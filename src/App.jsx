@@ -59,7 +59,7 @@ export default function LabelMBG() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (pinInput === '1234') {
+    if (pinInput === 'sudiro123456') {
       setIsAdmin(true);
       setShowLogin(false);
       setPinInput('');
@@ -263,7 +263,7 @@ export default function LabelMBG() {
               <p className="text-xs text-center text-gray-500 mb-5">Masukkan PIN untuk mengelola data gizi harian.</p>
               <form onSubmit={handleLogin}>
                 <input
-                  type="password" placeholder="PIN (1234)" value={pinInput} onChange={(e) => setPinInput(e.target.value)}
+                  type="password" placeholder="MASUKAN PIN" value={pinInput} onChange={(e) => setPinInput(e.target.value)}
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl mb-4 text-center tracking-[0.5em] text-lg font-bold text-gray-800 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
                   autoFocus
                 />
