@@ -134,7 +134,7 @@ export default function LabelMBG() {
     saveMenus(newMenus);
   };
 
-  if (isLoading) return <div className="text-center p-10 font-bold text-orange-600">Memuat Data SPPG Jatibaru 007...</div>;
+  if (isLoading) return <div className="text-center p-10 font-bold text-orange-600">Memuat Data SPPG Jatibaru 3...</div>;
 
   return (
     <div className="min-h-screen bg-orange-50 font-sans p-2 sm:p-4 flex justify-center">
