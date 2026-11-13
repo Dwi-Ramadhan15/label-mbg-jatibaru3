@@ -1,4 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, onValue, set } from 'firebase/database';
+
+// Konfigurasi otomatis dari data Firebase SPPG Jatibaru 
+const firebaseConfig = {
+  apiKey: "AIzaSyBuTGMwbup_gwPI7V_DcqdpEZ_6tGq9elk",
+  authDomain: "sppg-jatibaru.firebaseapp.com",
+  databaseURL: "https://sppg-jatibaru-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "sppg-jatibaru",
+  storageBucket: "sppg-jatibaru.firebasestorage.app",
+  messagingSenderId: "493602789343",
+  appId: "1:493602789343:web:a1db04a246cf89f01c966a",
+  measurementId: "G-0R67S4R71Q"
+};
+
+// Inisialisasi Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 export default function LabelMBG() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -6,38 +24,42 @@ export default function LabelMBG() {
   const [showLogin, setShowLogin] = useState(false);
   const [menus, setMenus] = useState([]);
   const [activeDate, setActiveDate] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const savedMenus = localStorage.getItem('sppgMenus');
-    if (savedMenus) {
-      const parsedMenus = JSON.parse(savedMenus);
-      setMenus(parsedMenus);
-      if (parsedMenus.length > 0) setActiveDate(parsedMenus[0].tanggal);
-    } else {
-      const today = new Date().toISOString().split('T')[0];
-      const defaultMenu = {
-        id: Date.now(),
-        tanggal: today,
-        image: 'https://via.placeholder.com/300x400?text=Upload+Label+Menu',
-        porsiKecil: { energi: 630, protein: 24.6, lemak: 20.1, karbohidrat: 58.0, serat: 2.5 },
-        porsiBesar: { energi: 705, protein: 26.7, lemak: 22.3, karbohidrat: 67.8, serat: 2.6 }
-      };
-      setMenus([defaultMenu]);
-      setActiveDate(defaultMenu.tanggal);
-      localStorage.setItem('sppgMenus', JSON.stringify([defaultMenu]));
-    }
+    const menusRef = ref(database, 'sppgMenus');
+    
+    onValue(menusRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setMenus(data);
+        setActiveDate(prev => prev || data[0].tanggal);
+      } else {
+        const today = new Date().toISOString().split('T')[0];
+        const defaultMenu = {
+          id: Date.now(),
+          tanggal: today,
+          image: 'https://via.placeholder.com/300x400?text=Upload+Label+Menu',
+          porsiKecil: { energi: 630, protein: 24.6, lemak: 20.1, karbohidrat: 58.0, serat: 2.5 },
+          porsiBesar: { energi: 705, protein: 26.7, lemak: 22.3, karbohidrat: 67.8, serat: 2.6 }
+        };
+        setMenus([defaultMenu]);
+        setActiveDate(defaultMenu.tanggal);
+        set(ref(database, 'sppgMenus'), [defaultMenu]);
+      }
+      setIsLoading(false);
+    });
   }, []);
 
   const saveMenus = (newMenus) => {
-    setMenus(newMenus);
-    localStorage.setItem('sppgMenus', JSON.stringify(newMenus));
+    set(ref(database, 'sppgMenus'), newMenus);
   };
 
   const activeMenu = menus.find(m => m.tanggal === activeDate) || menus[0];
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (pinInput === 'sudiro123456') {
+    if (pinInput === '1234') {
       setIsAdmin(true);
       setShowLogin(false);
       setPinInput('');
@@ -82,8 +104,21 @@ export default function LabelMBG() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const newMenus = menus.map(m => m.tanggal === activeDate ? { ...m, image: reader.result } : m);
-        saveMenus(newMenus);
+        const img = new Image();
+        img.src = reader.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 600;
+          const scaleSize = MAX_WIDTH / img.width;
+          canvas.width = MAX_WIDTH;
+          canvas.height = img.height * scaleSize;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7); 
+          const newMenus = menus.map(m => m.tanggal === activeDate ? { ...m, image: compressedBase64 } : m);
+          saveMenus(newMenus);
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -99,24 +134,22 @@ export default function LabelMBG() {
     saveMenus(newMenus);
   };
 
-  if (!activeMenu) return <div className="text-center p-10">Memuat Data...</div>;
+  if (isLoading) return <div className="text-center p-10 font-bold text-orange-600">Memuat Data SPPG Jatibaru 007...</div>;
 
   return (
     <div className="min-h-screen bg-orange-50 font-sans p-2 sm:p-4 flex justify-center">
       <div className="w-full max-w-2xl bg-white shadow-2xl rounded-2xl overflow-hidden border border-orange-200">
         
         <div className="bg-orange-600 text-white py-4 sm:py-5 shadow-inner relative flex items-center justify-center px-4 min-h-[90px]">
-          {/* Container Logo Kiri */}
           <div className="absolute left-3 sm:left-6 w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-white">
             <img src="./assets/logo-yayasan.png" alt="Logo Yayasan" className="w-full h-full object-cover" />
           </div>
           
           <div className="text-center px-16 sm:px-24">
-            <h1 className="text-xl sm:text-3xl font-extrabold tracking-wider drop-shadow-md leading-tight">SPPG JATIBARU 3</h1>
+            <h1 className="text-xl sm:text-3xl font-extrabold tracking-wider drop-shadow-md leading-tight">SPPG JATIBARU 007</h1>
             <h2 className="text-xs sm:text-lg font-medium opacity-90 mt-1">MENU MAKAN BERGIZI GRATIS</h2>
           </div>
           
-          {/* Container Logo Kanan */}
           <div className="absolute right-3 sm:right-6 w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-white">
             <img src="./assets/logo-bgn.png" alt="Logo MBG" className="w-full h-full object-cover" />
           </div>
@@ -146,12 +179,9 @@ export default function LabelMBG() {
 
         <div className="p-4 sm:p-6">
           <div className="flex justify-center mb-8">
-            <div className="relative group rounded-xl overflow-hidden shadow-lg border-4 border-white ring-2 ring-orange-200">
-              <img 
-                  src={activeMenu.image} 
-                  alt={`Menu ${activeMenu.tanggal}`} 
-                  className="w-full max-w-sm h-auto max-h-[400px] object-contain bg-gray-50" 
-                />
+            <div className="relative group rounded-xl overflow-hidden shadow-lg border-4 border-white ring-2 ring-orange-200 bg-gray-50 flex justify-center items-center">
+              <img src={activeMenu.image} alt={`Menu ${activeMenu.tanggal}`} className="w-full max-w-sm h-auto max-h-[400px] object-contain" />
+              
               {isAdmin && (
                 <label className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
                   <svg className="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
@@ -233,7 +263,7 @@ export default function LabelMBG() {
               <p className="text-xs text-center text-gray-500 mb-5">Masukkan PIN untuk mengelola data gizi harian.</p>
               <form onSubmit={handleLogin}>
                 <input
-                  type="password" placeholder="MASUKKAN PIN ANDA" value={pinInput} onChange={(e) => setPinInput(e.target.value)}
+                  type="password" placeholder="PIN (1234)" value={pinInput} onChange={(e) => setPinInput(e.target.value)}
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl mb-4 text-center tracking-[0.5em] text-lg font-bold text-gray-800 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
                   autoFocus
                 />
